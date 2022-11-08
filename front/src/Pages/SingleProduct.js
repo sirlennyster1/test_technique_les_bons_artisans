@@ -73,6 +73,7 @@ function SingleProduct() {
             price: price,
             rating: rating,
             type: type, 
+            available: toggled
         }, 
         {
             headers: {
