@@ -59,6 +59,7 @@ function Navbar() {
                     </>
                 ) : (
                     <>
+                        <Item key="entry" text='Create Product' onClick={() => navigate('/create-product')}>Create Product</Item>
                         <Item key="entry" text='Logout' onClick={() => Logout()}>
                             <p>Logout</p>
                         </Item>

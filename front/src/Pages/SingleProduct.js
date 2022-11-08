@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Typography, Button, Modal, TextField, Box, Select, MenuItem, Alert } from '@mui/material';
+import { Container, Typography, Button, Modal, TextField, Box, Select, MenuItem, Alert, Switch } from '@mui/material';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useParams } from 'react-router';
@@ -10,6 +10,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import iPhone from '../Assets/Images/iphonejpg.jpg';
 import openSocket from 'socket.io-client';
+import { Link } from 'react-router-dom';
 const socket = openSocket('http://localhost:5000');
 
 const FirstSection = styled(Container)`
@@ -44,6 +45,7 @@ function SingleProduct() {
     const [msg, setMsg] = React.useState('');
     const [error, setError] = React.useState(null);
     const [deleted, setDeleted] = React.useState(false);
+    const [toggled, setToggled] = React.useState(false);
 
     React.useEffect(() => {
         axios.get('http://localhost:5000/products/' + id)
@@ -54,6 +56,7 @@ function SingleProduct() {
             setWarranty_years(response.data.product.warranty_years);
             setPrice(response.data.product.price);
             setRating(response.data.product.rating);
+            setToggled(response.data.product.available);
         })
         .catch((error) => {
             console.log(error);
@@ -121,6 +124,15 @@ function SingleProduct() {
         flexDirection: 'column',
     };
 
+    if(!product) {
+        return(
+            <>
+                <h1>404</h1>
+                <Link to={'/'}>Back to the Homepage</Link>
+            </>
+        )
+    }
+
     return (
         <FirstSection>
             <Navbar />
@@ -180,6 +192,10 @@ function SingleProduct() {
                     </Select>
                     <TextField id="outlined-basic" label="Warranty Years" type="number" variant="outlined" style={{ marginBottom: 20 }} value={warranty_years} onChange={(e) => setWarranty_years(e.target.value)}  />
                     <TextField id="outlined-basic" label="Rating" type="number" variant="outlined" style={{ marginBottom: 20 }} value={rating} onChange={(e) => setRating(e.target.value)} />
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <p>Availability</p>
+                        <Switch checked={toggled} onChange={() => setToggled(!toggled)} style={{ marginBottom: 20 }} /> 
+                    </div>
                     <Button onClick={() => handleUpdate()}>Save</Button>
                 </Box>
             </Modal>

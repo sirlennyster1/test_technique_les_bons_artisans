@@ -49,6 +49,11 @@ function CreateProduct() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (name === '' || warranty_years === '' || price === '' || rating === '') {
+            setMsg('Please fill all the fields');
+            setError(false);
+            return;
+        }
         
         axios.post('http://localhost:5000/products/create', {
             name: name,
@@ -90,7 +95,7 @@ function CreateProduct() {
                         {msg}
                     </Alert>
                     <TextField label="Name" style={{ marginBottom: 20 }} onChange={(e) => setName(e.target.value)} required /> 
-                    <TextField label="Price" style={{ marginBottom: 20 }} type="number" onChange={(e) => setPrice(e.target.value)} />
+                    <TextField label="Price" style={{ marginBottom: 20 }} type="number" onChange={(e) => setPrice(e.target.value)} required />
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"

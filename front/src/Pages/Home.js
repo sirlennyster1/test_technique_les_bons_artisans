@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:5000');
 
-
 function Home() {
 
     const [products, setProducts] = React.useState([]);
